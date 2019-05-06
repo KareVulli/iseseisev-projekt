@@ -8,7 +8,7 @@ if (!isset($_POST['id'])) {
     sendResponse(400, ['message' => 'Invalid parameters!']);
 }
 
-$stmt = $db->prepare('DELETE FROM files WHERE id = ?');
+$stmt = $db->prepare('UPDATE files SET removed_at = NOW() WHERE id = ?');
 $stmt->execute([$_POST['id']]);
 
 

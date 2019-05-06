@@ -6,9 +6,10 @@ import { DragArea } from './DragArea.js';
 
 let files = [];
 let dragArea;
-let manager = new FilesManager('#files');
+let manager = new FilesManager('#files', '#sort-select');
+let dropzone;
 
-
+Dropzone.autoDiscover = false;
 Dropzone.options.uploadFiles = {
     paramName: 'file',
     maxFilesize: 20, // MB
@@ -26,8 +27,15 @@ Dropzone.options.uploadFiles = {
     }
 };
 
+
+
 $(function() {
     manager.loadFiles();
+    dropzone = new Dropzone('#upload-files');
+
+    $('#upload-modal').on('hidden.bs.modal', function (e) {
+        dropzone.removeAllFiles();
+    })
 });
 
 

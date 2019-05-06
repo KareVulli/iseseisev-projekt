@@ -1,23 +1,29 @@
 /* jshint esversion: 6 */
 
 export class File {
-    constructor (id, name, created, size) {
+    constructor (id, name, created, size, path) {
         this.id = id;
         this.name = name;
         this.created = created;
         this.size = size;
+        this.path = path;
+        this.renaming = false;
     }
 
-    getCard() {
-        return '<div class="col-md-6 col-lg-4" data-id="' + this.id + '">' +
+    getCard(position) {
+        return '<div class="col-md-6 col-lg-4 file-card" data-id="' + this.id + '" data-position="' + position + '">' +
             '<div class="card my-3">' +
                 '<div class="card-body">' +
-                    '<h5 class="card-title">' + this.name + '</h5>' +
+                    '<div class="d-flex justify-content-between align-items-start">' +
+                        '<h6 class="card-title text-break">' + this.name + '</h6>' +
+                        '<a class="btn btn-sm btn-outline-info text-nowrap" href="' + this.path + '" download="' + this.name + '" ><i class="fas fa-download"></i> Download</a>' +
+                    '</div>' +
                     '<p class="card-text">Size: ' + this.getFileSize() + '</p>' +
                     '<p class="card-text"><small class="text-muted">Uploaded at: ' + this.created + '</small></p>' +
                 '</div>' +
                 '<div class="card-footer text-muted text-right">' +
-                    '<a class="btn btn-sm btn-outline-primary mr-2" href="#">Rename</a>' +
+                    '<input class="form-control rename-file-input mb-2" type="text" style="display: none;" placeholder="New name...">' +
+                    '<a class="btn btn-sm btn-outline-primary mr-2 rename-file-btn" href="#">Rename</a>' +
                     '<a class="btn btn-sm btn-outline-danger remove-file-btn" href="#"><i class="fas fa-trash"></i> Delete</a>' +
                 '</div>' +
             '</div>' +
@@ -29,9 +35,21 @@ export class File {
         return getSize(this.size);
     }
 
-    removeFile(onRemoved) {
+    remove(onRemoved) {
         $.post( "api/remove-file.php", { id: this.id }, function( data ) {
             onRemoved(true);
+        })
+        .fail(function(response) {
+            onRemoved(false);
+        });
+    }
+
+    rename(element, onRenamed) {
+        $.post( "api/rename-file.php", { id: this.id, name: element.val() }, function( data ) {
+            onRenamed(element, true);
+        })
+        .fail(function(response) {
+            onRenamed(element, false);
         });
     }
 }

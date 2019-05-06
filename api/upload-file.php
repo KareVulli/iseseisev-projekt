@@ -13,11 +13,12 @@ $upload->from('file');
 try {
     $uploadedFile = $upload->save();
 
-    $stmt = $db->prepare('INSERT INTO files (displayname, filename, filesize) VALUES (?, ?, ?)');
+    $stmt = $db->prepare('INSERT INTO files (displayname, filename, filesize, extension) VALUES (?, ?, ?, ?)');
     $stmt->execute([
-        $_FILES['file']['name'],
+        pathinfo($_FILES['file']['name'], PATHINFO_FILENAME),
         $uploadedFile->getFilenameWithExtension(),
-        $_FILES['file']['size']
+        $_FILES['file']['size'],
+        $uploadedFile->getExtension(),
     ]);
 
     // success: $uploadedFile->getFilenameWithExtension()

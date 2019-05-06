@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <?php require_once('./components/UploadModal.php'); ?>
+    <?php require('./components/UploadModal.php'); ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <span class="navbar-brand mb-0 h1">Care Cloud</span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,11 +37,12 @@
     </nav>
     <div class="container">
         <div class="row mt-4">
-            <div class="col">
-                <h4>Your files</h4>
+            <div class="col-md col-sm-2">
+                <span class="h4">Your files</span>
             </div>
-            <div class="col text-right">
-                <h5 class="text-muted mt-2">Files: <span id="files-count">0</span> Total size: <span id="files-size">0 Bytes</span></h3>
+            <?php require('./components/SortSelect.php'); ?>
+            <div class="col-sm-auto">
+                <h5 class="text-muted mt-2">Files: <span id="files-count">0</span> Total size: <span id="files-size">0 Bytes</span></h5>
             </div>
         </div>
         <hr>

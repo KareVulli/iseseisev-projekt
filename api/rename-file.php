@@ -7,8 +7,12 @@
         sendResponse(400, ['message' => 'Invalid parameters!']);
     }
 
-    $stmt = $db->prepare('UPDATE displayname = ? FROM files WHERE id = ?');
-    $stmt->execute([$_POST['id'], $_POST['name']]);
+    if (empty($_POST['name'])) {
+        sendResponse(400, ['message' => 'Empty name!']);
+    }
+
+    $stmt = $db->prepare('UPDATE files SET displayname = ? WHERE id = ?');
+    $stmt->execute([$_POST['name'], $_POST['id']]);
 
 
     sendResponse(200, ['message' => 'Name changed successfully']);
