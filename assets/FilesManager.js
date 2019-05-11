@@ -3,11 +3,12 @@ import { File, getSize } from './File.js';
 import { Sorter } from './Sorter.js';
 
 export class FilesManager {
-    constructor(element, sorterElement) {
+    constructor(element, sorterElement, categoriesManager) {
         this.files = [];
         this.element = $(element);
         this.sorter = new Sorter(sorterElement);
         this.sorter.setOnSortingChangedCallback(this.onSortingChanged.bind(this));
+        this.categoriesManager = categoriesManager;
 
         this.element.on('click', '.rename-file-btn', (e) => this.onRenameClick(e));
         this.element.on('click', '.remove-file-btn', (e) => this.onRemoveClick(e));
@@ -38,9 +39,16 @@ export class FilesManager {
 
     renderFiles() {
         this.element.empty();
-        for (let i = 0; i < this.files.length; i++) {
-            this.element.append(this.files[i].getCard(i));
+        let categories = this.categoriesManager.categories;
+        for (let i = 0; i < categories.length; i++) {
+            let category = categories[i];
+            let content = category.render(this.element);
+            
+            for (let i = 0; i < this.files.length; i++) {
+                content.append(this.files[i].getCard(i));
+            }
         }
+        
     }
 
     onRenameClick(e) {

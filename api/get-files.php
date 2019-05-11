@@ -8,25 +8,30 @@
     if (isset($_GET['sort'])) {
         switch($_GET['sort']) {
             case 'name': 
-                $sortBy = 'displayname';
+                $sortBy = 'f.displayname';
                 $direction = 'ASC';
                 break;
             case 'time': 
-                $sortBy = 'created';
+                $sortBy = 'f.created';
                 $direction = 'DESC';
                 break;
             case 'size': 
-                $sortBy = 'filesize';
+                $sortBy = 'f.filesize';
                 $direction = 'DESC';
                 break;
             default:
-                $sortBy = 'created';
+                $sortBy = 'f.created';
                 $direction = 'DESC';
                 break;
         }
     }
 
-    $stmt = $db->prepare('SELECT id, displayname, extension, created, filesize, filename FROM files WHERE removed_at IS NULL ORDER BY ' . $sortBy . ' ' . $direction);
+    $stmt = $db->prepare(
+        'SELECT f.id, f.displayname, f.extension, f.created, f.filesize, f.filename, f.category_id, c.name AS category_name
+        FROM files f
+        LEFT JOIN categories c ON c.id = f.category_id
+        WHERE f.removed_at IS NULL
+        ORDER BY ' . $sortBy . ' ' . $direction);
     $stmt->execute();
 
     $data = [];
@@ -37,6 +42,8 @@
         $file['created'] = $row['created'];
         $file['size'] = $row['filesize'];
         $file['location'] = 'uploads/' . $row['filename'];
+        $file['category_id'] = $row['category_id'];
+        $file['category'] = $row['category_name'];
         $data[] = $file;
     }
     sendResponse(200, $data);

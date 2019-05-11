@@ -22,6 +22,7 @@
 
 <body>
     <?php require('./components/UploadModal.php'); ?>
+    <?php require('./components/CategoryModal.php'); ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <span class="navbar-brand mb-0 h1">Care Cloud</span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,8 +30,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a id="upload-file" class="nav-link" data-toggle="modal" data-target="#upload-modal" href="#"><i class="fas fa-plus"></i> Upload new file...</a>
+                </li>
+                <li class="nav-item">
+                    <a id="upload-file" class="nav-link" data-toggle="modal" data-target="#category-modal" href="#"><i class="fas fa-folder-plus"></i> Add new category...</a>
                 </li>
             </ul>
         </div>
@@ -46,7 +50,7 @@
             </div>
         </div>
         <hr>
-        <div id="files" class="row mt-4">
+        <div id="files" class="mt-4">
         </div>
 
     </div>

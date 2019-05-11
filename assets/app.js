@@ -1,12 +1,14 @@
 /* jshint esversion: 6 */
 
 import { FilesManager } from './FilesManager.js';
+import { CategoriesManager } from './CategoriesManager.js';
 import { DragArea } from './DragArea.js';
 
 
 let files = [];
 let dragArea;
-let manager = new FilesManager('#files', '#sort-select');
+let categories = new CategoriesManager('#category-modal', '#category-name-input', '#add-category-btn');
+let manager = new FilesManager('#files', '#sort-select', categories);
 let dropzone;
 
 Dropzone.autoDiscover = false;
