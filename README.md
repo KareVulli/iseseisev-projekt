@@ -2,6 +2,8 @@
 
 Selles rakenduses on võimalik üles laadida avalikke faile.
 
+Rakendus on kastutatav [siin](http://greeny.cs.tlu.ee/~marvhel/frontend/iseseisev-projekt/)
+
 ### Arendaja
 Marvin Helstein
 
