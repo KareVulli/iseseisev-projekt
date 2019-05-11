@@ -7,12 +7,14 @@
         sendResponse(400, ['message' => 'Invalid parameters!']);
     }
 
-    if ($_POST['id'] != null) {
+    if ($_POST['category'] != -1) {
         $stmt = $db->prepare('SELECT id FROM categories WHERE id = ?');
         $stmt->execute([$_POST['category']]);
         if (!$stmt->fetch()) {
             sendResponse(400, ['message' => 'Selected category does not exist!']);
         }
+    } else {
+        $_POST['category'] = null;
     }
 
     $stmt = $db->prepare('UPDATE files SET category_id = ? WHERE id = ?');

@@ -1,10 +1,20 @@
-### Planned features:
-* ~~Renaming files~~ - **Done**
-* Make sorting locally
-* Save file names and metadata locally
+## Care Cloud - Lihtne pilveteenus failide salvestamiseks:
 
-* Categories (one level folders)
-* The categories will be collapsible
-* Preview for images
-* Recycle bin
+Selles rakenduses on võimalik üles laadida avalikke faile.
 
+### Arendaja
+Marvin Helstein
+
+### Funktsionaalsus
+* Failide üleslaadimine (läbi failihalduri; drag and drop)
+* Failide ümber nimetamine
+* Failide sorteerimine
+* Failide kustutamine
+* Kategooriate loomine ja kustutamine
+* Failide jagamine kategooriatesse neid tõstes (drag and drop)
+
+### Eelvaade
+Pealeht
+![Main page](https://i.imgur.com/kjGdyKF.jpg)
+Failide üleslaadimise modal
+![Modal](https://i.imgur.com/1YClniq.jpg)

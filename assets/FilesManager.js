@@ -107,7 +107,11 @@ export class FilesManager {
 
     onFileDropped(target, file) {
         console.log("onFileDropped " + target);
-        this.setFileCategory($(target).data('id'), $(file).data('id'));
+        let category = $(target).data('id');
+        if (category == null) {
+            category = -1;
+        }
+        this.setFileCategory(category, $(file).data('id'));
         
     }
 
