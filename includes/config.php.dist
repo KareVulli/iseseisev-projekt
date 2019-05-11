@@ -1,0 +1,29 @@
+<?php
+
+$DB_HOST = "localhost";
+$DB_NAME = "";
+$DB_USER = "";
+$DB_PASS = "";
+
+$db = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME", $DB_USER, $DB_PASS);
+// set the PDO error mode to exception
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$db->query('CREATE TABLE IF NOT EXISTS files (
+    id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    displayname VARCHAR(128) NOT NULL,
+    filename VARCHAR(128) NOT NULL,
+    filesize INT(11) UNSIGNED NOT NULL,
+    extension VARCHAR(16) NOT NULL,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    removed_at TIMESTAMP NULL DEFAULT NULL,
+    category_id INT(11) UNSIGNED NULL DEFAULT NULL
+)');
+
+$db->query('CREATE TABLE IF NOT EXISTS categories (
+    id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(128) NOT NULL,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    removed_at TIMESTAMP NULL DEFAULT NULL
+)');
+
