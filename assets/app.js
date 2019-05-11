@@ -2,12 +2,11 @@
 
 import { FilesManager } from './FilesManager.js';
 import { CategoriesManager } from './CategoriesManager.js';
-import { DragArea } from './DragArea.js';
 
 
 let files = [];
 let dragArea;
-let categories = new CategoriesManager('#category-modal', '#category-name-input', '#add-category-btn');
+let categories = new CategoriesManager('#files', '#category-modal', '#category-name-input', '#add-category-btn');
 let manager = new FilesManager('#files', '#sort-select', categories);
 let dropzone;
 
@@ -29,10 +28,12 @@ Dropzone.options.uploadFiles = {
     }
 };
 
-
+function onCategoriesLoaded() {
+    manager.loadFiles();
+}
 
 $(function() {
-    manager.loadFiles();
+    categories.load(onCategoriesLoaded);
     dropzone = new Dropzone('#upload-files');
 
     $('#upload-modal').on('hidden.bs.modal', function (e) {

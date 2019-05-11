@@ -12,3 +12,23 @@
     display: block;
     margin-top: 1.4rem;
 }
+
+.file-card {
+    touch-action: none;
+    user-select: none;
+    z-index: 10;
+}
+
+.category-container {
+    border: 2px solid #00000000;
+    border-radius: 5px;
+}
+
+.drop-activated {
+    border: 2px solid deepskyblue;
+    border-radius: 5px;
+}
+
+.drop-over {
+    border: 2px solid lightgreen;
+}

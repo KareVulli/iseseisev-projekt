@@ -7,10 +7,12 @@
         sendResponse(400, ['message' => 'Invalid parameters!']);
     }
 
-    $stmt = $db->prepare('SELECT id FROM categories WHERE id = ?');
-    $stmt->execute([$_POST['category']]);
-    if (!$stmt->fetch()) {
-        sendResponse(400, ['message' => 'Selected category does not exist!']);
+    if ($_POST['id'] != null) {
+        $stmt = $db->prepare('SELECT id FROM categories WHERE id = ?');
+        $stmt->execute([$_POST['category']]);
+        if (!$stmt->fetch()) {
+            sendResponse(400, ['message' => 'Selected category does not exist!']);
+        }
     }
 
     $stmt = $db->prepare('UPDATE files SET category_id = ? WHERE id = ?');

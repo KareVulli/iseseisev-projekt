@@ -15,6 +15,13 @@ if (empty($_POST['name'])) {
 
 $stmt = $db->prepare('INSERT INTO categories (name) VALUES (?)');
 $stmt->execute([$_POST['name']]);
+$id = $db->lastInsertId();
 
 
-sendResponse(201, ['message' => 'Category created successfully']);
+sendResponse(201, [
+    'message' => 'Category created successfully',
+    'category' => [
+        'id' => $id,
+        'name' => $_POST['name']
+    ]
+]);
