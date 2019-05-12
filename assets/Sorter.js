@@ -22,4 +22,22 @@ export class Sorter {
             this.callback()
         }
     }
+
+    sortFiles(files) {
+        switch(this.current) {
+            case 'name':
+                console.log("Sorting by name...");
+                console.log(files);
+                files.sort((a, b) => a.name.localeCompare(b.name));
+                console.log(files);
+                return;
+            case 'time':
+                files.sort((a, b) => b.date - a.date);
+                return;
+            case 'size':
+                files.sort((a, b) => b.size - a.size);
+                return;
+        }
+        
+    }
 }

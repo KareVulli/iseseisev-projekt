@@ -41,16 +41,17 @@
     </nav>
     <div class="container">
         <div class="row mt-4">
-            <div class="col-md col-sm-2">
+            <div class="col-lg col-md-3 col-sm-6">
                 <span class="h4">Your files</span>
             </div>
             <?php require('./components/SortSelect.php'); ?>
-            <div class="col-sm-auto">
+            <div class="col-sm-12 col-md-auto">
                 <h5 class="text-muted mt-2">Files: <span id="files-count">0</span> Total size: <span id="files-size">0 Bytes</span></h5>
             </div>
         </div>
         <hr>
-        <div id="status"></div>
+        <div id="status" class="alert" style="display: none;">         
+        </div>
         <div id="files" class="mt-4">
         </div>
 

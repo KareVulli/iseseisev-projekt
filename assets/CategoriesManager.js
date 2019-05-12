@@ -1,4 +1,5 @@
 import { Category } from './Category.js';
+import { Alert } from './Alert.js';
 
 export class CategoriesManager {
     constructor(element, modal, nameInput, submitButton) {
@@ -53,12 +54,8 @@ export class CategoriesManager {
                 }
             })
             .fail(function(response) {
-                $('#status').html(
-                    '<div class="alert alert-danger" role="alert">' +
-                    'Failed to delete the category. Make sure you are connected to the internet.' +
-                    '</div>'
-                );
-            });;
+                Alert.showError('Failed to delete the category. Make sure you are connected to the internet.');
+            });
         }
        
     }
@@ -69,7 +66,7 @@ export class CategoriesManager {
             url: 'api/get-categories.php',
             success: (data) => {
                 this.parse(data, callback);
-                localStorage.setItem('categories', data);
+                localStorage.setItem('categories', JSON.stringify(data));
             }
         })
         .fail(response => {
@@ -77,17 +74,9 @@ export class CategoriesManager {
             if (backup) {
                 backup = JSON.parse(backup);
                 this.parse(backup, callback);
-                $('#status').html(
-                    '<div class="alert alert-dark" role="alert">' +
-                    'Failed to load data from the server. Viewing offline version.' +
-                    '</div>'
-                );
+                Alert.showError('Failed to load data from the server. Viewing offline version.');
             } else {
-                $('#status').html(
-                    '<div class="alert alert-danger" role="alert">' +
-                    'Failed to load data from the server.' +
-                    '</div>'
-                );
+                Alert.showError('Failed to load data from the server');
             }
             
         });

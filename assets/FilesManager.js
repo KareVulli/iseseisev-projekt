@@ -2,6 +2,7 @@
 import { File, getSize } from './File.js';
 import { Sorter } from './Sorter.js';
 import { Category } from './Category.js';
+import { Alert } from './Alert.js';
 
 export class FilesManager {
     constructor(element, sorterElement, categoriesManager) {
@@ -22,23 +23,36 @@ export class FilesManager {
         $.ajax({
             dataType: 'json',
             url: 'api/get-files.php',
-            data: {
-                sort: this.sorter.current
-            },
             success: (data) => {
-                this.files = [];
-                let totalSize = 0;
-                $('#files-count').text(data.length);
-                data.forEach(file => {
-                    this.files.push(new File(file.id, file.name, file.created, file.size, file.location, file.category_id));
-                    totalSize += parseInt(file.size);
-                });
-                console.log(totalSize);
-                
-                $('#files-size').text(getSize(totalSize));
-                this.renderFiles();
+                this.parse(data);
+                localStorage.setItem('files', JSON.stringify(data));
             }
+        })
+        .fail(response => {
+            var backup = localStorage.getItem('files');
+            if (backup) {
+                backup = JSON.parse(backup);
+                this.parse(backup);
+                Alert.showInfo('Failed to load data from the server. Viewing offline version.');
+            } else {
+                Alert.showError('Failed to load data from the server');
+            }
+            
         });
+    }
+
+    parse(data) {
+        this.files = [];
+        let totalSize = 0;
+        $('#files-count').text(data.length);
+        data.forEach(file => {
+            this.files.push(new File(file.id, file.name, file.created, file.size, file.location, file.category_id));
+            totalSize += parseInt(file.size);
+        });
+        
+        $('#files-size').text(getSize(totalSize));
+        this.sorter.sortFiles(this.files);
+        this.renderFiles();
     }
 
     renderFiles() {
@@ -67,8 +81,14 @@ export class FilesManager {
         let file = this.files[position];
         let input = $(e.target).siblings('.rename-file-input');
         if (file.renaming) {
-            input.prop('disabled', true);
-            file.rename(input, this.onRenamed.bind(this));
+            if (!input.val()) {
+                file.renaming = false;
+                input.slideUp(300);
+                input.removeClass('is-invalid');
+            } else {
+                input.prop('disabled', true);
+                file.rename(input, this.onRenamed.bind(this));
+            }
         } else {
             file.renaming = true;
             input.prop('disabled', false);
@@ -87,7 +107,8 @@ export class FilesManager {
     }
 
     onSortingChanged() {
-        this.loadFiles();
+        this.sorter.sortFiles(this.files);
+        this.renderFiles();
     }
 
     onRenamed(element, success) {
@@ -120,11 +141,7 @@ export class FilesManager {
             this.loadFiles();
         })
         .fail(function(response) {
-            $('#status').html(
-                '<div class="alert alert-danger" role="alert">' +
-                'Failed to update the categories. Make sure you are connected to the internet.' +
-                '</div>'
-            );
+            Alert.showError('Failed to update the categories. Make sure you are connected to the internet.');
         });
     }
 }

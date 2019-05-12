@@ -14,6 +14,7 @@ Marvin Helstein
 * Failide kustutamine
 * Kategooriate loomine ja kustutamine
 * Failide jagamine kategooriatesse neid tõstes (drag and drop)
+* Failide ja kategooriate salvestamine lokaalselt, et neid offline olekus näha.
 
 ### Eelvaade
 Pealeht
